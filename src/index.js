@@ -30,7 +30,6 @@ io.on('connection', (socket)=>{
         }
         
         socket.join(user.room)
-        addRoom(user.room)
 
         socket.emit('message', generateMessage('System','Welcome!'))
         socket.broadcast.to(user.room).emit('message', generateMessage('System', `${user.username} has joined!`))
