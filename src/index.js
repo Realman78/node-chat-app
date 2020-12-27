@@ -30,6 +30,7 @@ io.on('connection', (socket)=>{
         }
         
         socket.join(user.room)
+        addRoom(user.room)
 
         socket.emit('message', generateMessage('System','Welcome!'))
         socket.broadcast.to(user.room).emit('message', generateMessage('System', `${user.username} has joined!`))
@@ -63,7 +64,6 @@ io.on('connection', (socket)=>{
         if (user){
             io.to(user.room).emit('message', generateMessage('Admin', `${user.username} has disconnected`))
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)})
-            
         }        
     })
 })
