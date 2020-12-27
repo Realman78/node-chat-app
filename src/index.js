@@ -4,7 +4,7 @@ const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generateMessage, generateLocationMessage} = require('./utils/messages')
-const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/users.js')
+const {addUser, removeUser, getUser, getUsersInRoom, getActiveRooms} = require('./utils/users.js')
 
 const app = express()
 const server = http.createServer(app)
@@ -14,6 +14,10 @@ const port = process.env.PORT || 3000
 const publicDirPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirPath))
+
+app.get('/getRooms', (req,res)=>{
+    res.send({rooms: getActiveRooms()})
+})
 
 io.on('connection', (socket)=>{
     console.log('New websocket connection')
@@ -35,6 +39,7 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('sendMessage', (message, callback)=>{
+        
         const user = getUser(socket.id)
 
         const filter = new Filter()
@@ -58,7 +63,8 @@ io.on('connection', (socket)=>{
         if (user){
             io.to(user.room).emit('message', generateMessage('Admin', `${user.username} has disconnected`))
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)})
-        }
+            
+        }        
     })
 })
 

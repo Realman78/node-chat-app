@@ -5,6 +5,10 @@ const $input = document.querySelector('input')
 const $button = document.querySelector('#sendButton')
 const $sendLocationButton = document.querySelector('#sendLocation')
 const $messages = document.querySelector('#messages')
+const dropdownList = document.querySelector('datalist')
+
+
+
 
 //templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
@@ -13,6 +17,8 @@ const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 // Options
 const { username, room } = Qs.parse(location.search, {ignoreQueryPrefix: true})
+
+
 
 const autoScroll = ()=>{
     //New message element
