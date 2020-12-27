@@ -57,9 +57,10 @@ io.on('connection', (socket)=>{
         callback()
     })
 
-    socket.on('sendPhoto', (res)=>{
+    socket.on('sendPhoto', (res, callback)=>{
         const user = getUser(socket.id)
-        io.to(user.room).emit('photoMessage', generatePhotoMessage(user.username, res.content))
+        io.to(user.room).emit('photoMessage', generatePhotoMessage(user.username, res))
+        callback()
     })
 
     socket.on('disconnect', ()=>{

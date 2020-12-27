@@ -24,7 +24,6 @@
                 </form>
                 <button id="sendLocation">Send location</button>
                 <button id="sendPhoto">Upload photo</button>
-                <!-- <button onclick="document.getElementById('file-input').click();">Open</button> -->
                 <input id="file-input" type="file" name="name" style="display: none;" />
             </div>
         </div>
@@ -42,14 +41,31 @@
     </script>
 
     <script id="image-template" type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">{{username}}</span>
+                <span class="message_meta">{{createdAt}}</span>
+            </p>
+            <p><img width="500"  src="{{url}}"></p>
+        </div>
+    </script>
+
+    <script id="video-template" type="text/html">
             <div class="message">
                 <p>
                     <span class="message__name">{{username}}</span>
                     <span class="message_meta">{{createdAt}}</span>
                 </p>
-                <p><img src="{{url}}"></p>
+                <p>
+                    <video width="320" height="240" controls>
+                        <source src="{{url}}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </p>
             </div>
         </script>
+
+        
 
     <script id="location-template" type="text/html">
         <p>

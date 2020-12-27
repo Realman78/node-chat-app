@@ -16,6 +16,7 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 const photoTemplate = document.querySelector('#image-template').innerHTML
+const videoTemplate = document.querySelector('#video-template').innerHTML
 
 // Options
 const { username, room } = Qs.parse(location.search, {ignoreQueryPrefix: true})
@@ -75,11 +76,18 @@ socket.on('roomData', ({room,users})=>{
 })
 
 socket.on('photoMessage', (photoMessage)=>{
-    const html = Mustache.render(photoTemplate, {
+    let templateUsed = undefined
+    if (photoMessage.img_url.includes('video')){
+        templateUsed = videoTemplate
+    }else{
+        templateUsed = photoTemplate
+    }
+    const html = Mustache.render(templateUsed, {
         username: photoMessage.username,
         url: photoMessage.img_url, 
         createdAt: moment(photoMessage.createdAt).format('HH:mm')
     })
+    
     $messages.insertAdjacentHTML('beforeend', html)
     autoScroll()
 })
@@ -128,13 +136,10 @@ $sendPhotoButton.addEventListener('click', ()=>{
     reader.readAsDataURL(file); // this is reading as data url
 
     // here we tell the reader what to do when it's done reading...
-    reader.onload = readerEvent => {
+    reader.onload = (readerEvent) => {
         var content = readerEvent.target.result; // this is the content!
-        const img = new Image()
-        img.src = content
-
-        socket.emit('sendPhoto', {
-            content
+        socket.emit('sendPhoto', content, ()=>{
+            console.log('upload done')
         })
     }
 
