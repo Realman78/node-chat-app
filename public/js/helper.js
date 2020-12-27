@@ -17,10 +17,4 @@ const f = function(){
 
 window.setInterval(function(){
   f()
-<<<<<<< HEAD
 }, 5000);
-=======
-}, 5000);
-
-inp.onfocus = f()
->>>>>>> 9d76033d067604e414e745d64518d12d6dc6a522
