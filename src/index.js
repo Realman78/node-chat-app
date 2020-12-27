@@ -64,10 +64,6 @@ io.on('connection', (socket)=>{
         if (user){
             io.to(user.room).emit('message', generateMessage('Admin', `${user.username} has disconnected`))
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)})
-            
-            if (getUsersInRoom(user.room).length < 1){
-                removeRoom(user.room)
-            }
         }        
     })
 })
