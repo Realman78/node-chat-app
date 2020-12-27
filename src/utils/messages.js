@@ -9,7 +9,14 @@ const generateLocationMessage = (username, url)=>{
     }
 }
 
+const generatePhotoMessage = (username, img_url)=>{
+    return {
+        username, img_url, createdAt: new Date().getTime()
+    }
+}
+
 module.exports = {
     generateMessage,
-    generateLocationMessage
+    generateLocationMessage,
+    generatePhotoMessage
 }
