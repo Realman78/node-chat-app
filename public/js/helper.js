@@ -18,5 +18,3 @@ const f = function(){
 window.setInterval(function(){
   f()
 }, 5000);
-
-inp.onfocus = f()
